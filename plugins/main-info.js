@@ -22,7 +22,7 @@ let handler = async (m, { conn, isRowner }) => {
   txt += `「 *🏴 Usuarios Registrados ∙* 」 ${totalreg}\n`
   txt += `「 *💫 Grupos Registrados ∙* 」 ${totalchats}\n`
   txt += `「 *🕜 Uptime ∙* 」 ${muptime}\n`
-  txt += `「 *🚩 Contacto ∙* 」 wa.me/51993047526`
+  txt += `「 *🚩 Contacto ∙* 」 wa.me/528125788206`
   await conn.sendFile(m.chat, pp, 'thumbnail.jpg', txt, m)
 }
 handler.help = ['status']
