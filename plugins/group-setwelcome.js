@@ -1,18 +1,54 @@
-let handler = async (m, { conn, text, isROwner, isOwner }) => {
-let fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
+import { WAMessageStubType } from '@whiskeysockets/baileys'
+import fetch from 'node-fetch'
 
-if (text) {
-global.db.data.chats[m.chat].sWelcome = text
-conn.reply(m.chat, '_*LA BIENVENIDA DEL GRUPO HA SIDO CONFIGURADA*_', fkontak, m)
+export async function before(m, { conn, participants, groupMetadata }) {
+  if (!m.messageStubType || !m.isGroup) return !0;
 
-} else {
-    conn.reply(m.chat, `*_ESCRIBE EL MENSAJE DE BIENVENIDA_*\n*_OPCIONAL PUEDE USAR LO QUE ESTA CON "@" PARA AGREGAR MÁS INFORMACIÓN:_*\n\n*⚡ @user (Mención al usuario(a))*\n*⚡ @group (Nombre de grupo)*\n*⚡ @desc (Description de grupo)*\n\n*RECUERDE QUE LOS "@" SON OPCIONALES*`, m)
+  let chat = global.db.data.chats[m.chat] ??= {}
+  chat.sWelcome ??= ''
+  chat.sBye ??= ''
+  chat.bienvenida ??= true
+
+  let jid = m.messageStubParameters?.[0] || ''
+  if (!jid) return
+
+  let pp = await conn.profilePictureUrl(jid, 'image').catch(_ => 'https://cdn.russellxz.click/896b4f6c.PNG')
+  let img = await (await fetch(pp)).buffer()
+
+  let user = `@${jid.split('@')[0]}`
+  let group = groupMetadata.subject
+  let desc = groupMetadata.desc || 'sin descripción'
+
+  const crearMensaje = (plantilla, defecto) => {
+    return typeof plantilla === 'string' && plantilla
+      ? plantilla
+          .replace('@user', user)
+          .replace('@group', group)
+          .replace('@desc', desc)
+      : defecto
+  }
+
+  if (chat.bienvenida && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD) {
+    let bienvenida = crearMensaje(
+      chat.sWelcome,
+      `👋🏻 Bienvenido/a ${user}\n Le damos una cordial bienvenida al grupo: *${group}*.\n⚠️ Descripción del grupo:\n${desc}\n\n> 𝐙𝐞𝐫𝐰𝐚𝐲𝐛𝐨𝐭 🔥`
+    )
+    await conn.sendMessage(m.chat, { image: img, caption: bienvenida, mentions: [jid] })
+  }
+
+  if (chat.bienvenida && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_LEAVE) {
+    let bye = crearMensaje(
+      chat.sBye,
+      `👋🏻 El usuario ${user} ha abandonado el grupo *${group}*. Le deseamos lo mejor.`
+    )
+    await conn.sendMessage(m.chat, { image: img, caption: bye, mentions: [jid] })
+  }
+
+  if (chat.bienvenida && m.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_REMOVE) {
+    let kick = crearMensaje(
+      chat.sBye,
+      `🚫 El usuario ${user} ha sido *Eliminado* del grupo.`
+    )
+    await conn.sendMessage(m.chat, { image: img, caption: kick, mentions: [jid] })
+  }
 }
-}
-handler.help = ['setwelcome @user + texto']
-handler.tags = ['group']
-handler.command = ['setwelcome', 'bienvenida'] 
-handler.botAdmin = true
-handler.admin = true
-handler.group = true
-export default handler
