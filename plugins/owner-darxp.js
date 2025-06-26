@@ -46,7 +46,7 @@ handler.help = ["darxp [@usuario]"];
 handler.tags = ["owner"];
 handler.command = ["añadirxp", "añadirexp", "darexperiencia", "darxp", "darexp"];
 handler.group = true;
-handler.rowner = true;
+handler.owner = true;
 
 export default handler;
 
