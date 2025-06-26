@@ -1,4 +1,4 @@
-let handler = async (m, { conn, text, participants, isAdmin, isOwner, usedPrefix, command }) => {
+let handler = async (m, { conn, text, participants, isAdmin, isROwner, usedPrefix, command }) => {
     try {
         if (!m.quoted) return conn.reply(m.chat, `👀 Responde a un mensaje para poder usar el comando coreectamente.`, m)
         await conn.sendMessage(m.chat, { forward: m.quoted.fakeObj }, { quoted: m })

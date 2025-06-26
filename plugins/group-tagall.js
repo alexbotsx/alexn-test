@@ -1,7 +1,7 @@
-const handler = async (m, { isOwner, isAdmin, conn, text, participants, args }) => {
+const handler = async (m, { isROwner, isAdmin, conn, text, participants, args }) => {
   let chat = global.db.data.chats[m.chat];
 
-  if (!(isAdmin || isOwner)) {
+  if (!(isAdmin || isROwner)) {
     global.dfail('admin', m, conn);
     throw false;
   }

@@ -1,5 +1,5 @@
-let handler = async (m, { conn, isAdmin, isowner} ) => {
-    if (!(isAdmin || isowner)) return dfail('admin', m, conn)
+let handler = async (m, { conn, isAdmin, isROwner} ) => {
+    if (!(isAdmin || isROwner)) return dfail('admin', m, conn)
     global.db.data.chats[m.chat].isBanned = false
     m.reply('🔓 Bot activo en este grupo.')   
 }

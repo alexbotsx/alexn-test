@@ -1,5 +1,5 @@
-const handler = async (m, { isOwner, isAdmin, conn, args }) => {
-  if (!(isAdmin || isOwner)) {
+const handler = async (m, { isROwner, isAdmin, conn, args }) => {
+  if (!(isAdmin || isROwner)) {
     global.dfail('admin', m, conn);
     throw false;
   }

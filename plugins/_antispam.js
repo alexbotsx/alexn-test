@@ -1,7 +1,7 @@
 const userSpamData = {}
 let handler = m => m
 
-handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner, isowner, isPrems }) {
+handler.before = async function (m, { conn, isAdmin, isBotAdmin, isROwner, isROwner, isPrems }) {
   const chat = global.db.data.chats[m.chat]
   const bot = global.db.data.settings[conn.user.jid] || {}
 
@@ -10,7 +10,7 @@ handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner, isowne
   if (!bot.antiSpam) return
   if (m.isGroup && chat.modoadmin) return  
   if (m.isGroup) {
-    if (isOwner || isowner || isAdmin || !isBotAdmin || isPrems) return
+    if (isROwner || isROwner || isAdmin || !isBotAdmin || isPrems) return
   }
 
   let user = global.db.data.users[m.sender]
