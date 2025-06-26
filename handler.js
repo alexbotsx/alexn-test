@@ -167,9 +167,9 @@ status: 0
 
         let _user = global.db.data && global.db.data.users && global.db.data.users[m.sender]
 
-        const isowner = [conn.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-        const isROwner = isROwner || m.fromMe
-        const isMods = isROwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
+        const isROwner = [conn.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
+        const isOwner = isROwner || m.fromMe
+        const isMods = isOwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
         const isPrems = isROwner || global.prems.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender) || _user.prem == true
 
         if (opts['queque'] && m.text && !(isMods || isPrems)) {
@@ -245,7 +245,7 @@ status: 0
                     user,
                     bot,
                     isROwner,
-                    isROwner,
+                    isOwner,
                     isRAdmin,
                     isAdmin,
                     isBotAdmin,
@@ -316,19 +316,19 @@ ${user.bannedReason}` : '💌 *Motivo:* Sin Especificar'}\n\n⚠️ *Si este bot
                 let isGod = global.db.data.users[m.sender].isGod; // Verifica si el usuario es "Dios"
 
                 // Si el modo Dios está activado y el usuario no es "Dios", el comando no se ejecuta
-                if (onlyGod && !isROwner && !isROwner && m.isGroup && !isGod) return;
+                if (onlyGod && !isOwner && !isROwner && m.isGroup && !isGod) return;
 
                 // Si el modo Admin está activado, solo los administradores, el propietario o subpropietarios pueden usarlo
-                if (adminMode && !isROwner && !isROwner && m.isGroup && !isAdmin) return;
-                if (plugin.owner && plugin.owner && !(isROwner || isROwner)) {
+                if (adminMode && !isOwner && !isROwner && m.isGroup && !isAdmin) return;
+                if (plugin.rowner && plugin.owner && !(isROwner || isOwner)) {
                     fail('owner', m, this)
                     continue
                 }
-                if (plugin.owner && !isROwner) {
-                    fail('owner', m, this)
+                if (plugin.rowner && !isROwner) {
+                    fail('rowner', m, this)
                     continue
                 }
-                if (plugin.owner && !isROwner) {
+                if (plugin.owner && !isOwner) {
                     fail('owner', m, this)
                     continue
                 }
@@ -382,7 +382,7 @@ ${user.bannedReason}` : '💌 *Motivo:* Sin Especificar'}\n\n⚠️ *Si este bot
                     user,
                     bot,
                     isROwner,
-                    isROwner,
+                    isOwner,
                     isRAdmin,
                     isAdmin,
                     isBotAdmin,
@@ -513,7 +513,7 @@ export async function deleteUpdate(message) {
 
 global.dfail = (type, m, conn) => {
     const msg = {
-        owner: `🚩 Hola, este comando solo puede ser utilizado por *Alexn*.`,
+        rowner: `🚩 Hola, este comando solo puede ser utilizado por *Alexn*.`,
         owner: `👤 Usuario, Este Comando Solo Puede Ser Utilizado Por *Alexn*.`,
         mods: `🤚🏻 Hola, este comando solo puede ser utilizado por *Alexn*.`,
         premium: `😂 Lo siento, este comando es exclusivo para *Usuarios Premium*.`,
@@ -521,7 +521,7 @@ global.dfail = (type, m, conn) => {
         private: `⚕️ Este comando solo se puede usar en el *Chat Privado* conmigo.`,
         admin: `⭐ Este comando solo está disponible para *Administradores del Grupo*.`,
         botAdmin: `🚩 Necesito ser *Administrador* para poder ejecutar este comando.`,
-        unreg: `🤚🏻 Debes estar *Registrado* para usar este comando.\n\nUsa: */reg nombre.edad*\nEjemplo: /reg Alexnn.20`,
+        unreg: `🤚🏻 Debes estar *Registrado* para usar este comando.\n\nUsa: */reg nombre.edad*\nEjemplo: /reg Owner.20`,
         restrict: `⚠️ Esta función está *Restringida* por el propietario del bot.*`
     }[type];
     if (msg) return conn.reply(m.chat, msg, m,).then(_ => m.react('✖️'))
