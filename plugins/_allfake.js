@@ -97,9 +97,9 @@ handler.all = async function (m) {
     }, { quoted: m }
 
     global.icono = [
-        'https://ibb.co/Xx4J5Dvq/avatar-contact.jpg',
-        'https://ibb.co/Xx4J5Dvq/avatar-contact.jpg',
-        'https://ibb.co/Xx4J5Dvq/avatar-contact.jpg'
+        'https://cdn.russellxz.click/494efd47.jpeg',
+        'https://cdn.russellxz.click/494efd47.jpeg',
+        'https://cdn.russellxz.click/494efd47.jpeg'
     ].getRandom()
 
     global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: "120363393959332331@newsletter", serverMessageId: 100, newsletterName: namechannel, }, externalAdReply: { showAdAttribution: true, title: namebot, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, }, }
