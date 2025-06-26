@@ -1,4 +1,4 @@
-let handler = async (m, { conn, usedPrefix, text, command, isrowner }) => {
+let handler = async (m, { conn, usedPrefix, text, command, isOwner }) => {
   if (isNaN(text) && !text.match(/@/g)) {
   } else if (isNaN(text)) {
     var number = text.split`@`[1];
@@ -30,7 +30,7 @@ let handler = async (m, { conn, usedPrefix, text, command, isrowner }) => {
     let isGod = global.db.data.users[m.sender]?.isGod || false;
     let givenByOwner = global.db.data.users[m.sender]?.givenByOwner || false;
 
-    if (!isrowner && (!isGod || !givenByOwner))
+    if (!isOwner && (!isGod || !givenByOwner))
       return conn.reply(
         m.chat,
         `❌ Este comando solo puede ser usado por el Owner o usuarios con el rol de "Dios" otorgado directamente por el Owner.`,
@@ -45,7 +45,7 @@ let handler = async (m, { conn, usedPrefix, text, command, isrowner }) => {
       // Añadir el rol de Dios al usuario y marcar que fue dado por el Owner
       if (!global.db.data.users[user]) global.db.data.users[user] = {};
       global.db.data.users[user].isGod = true;
-      global.db.data.users[user].givenByOwner = isrowner; // Solo marca como "dado por el Owner" si el Owner ejecuta el comando
+      global.db.data.users[user].givenByOwner = isOwner; // Solo marca como "dado por el Owner" si el Owner ejecuta el comando
       conn.reply(m.chat, `✅ El usuario ahora tiene el rol de "Dios".`, m);
     }
 
@@ -55,7 +55,7 @@ let handler = async (m, { conn, usedPrefix, text, command, isrowner }) => {
         return conn.reply(m.chat, `🚩 Este usuario no tiene el rol de "Dios".`, m);
 
       // Solo permite eliminar el rol si el usuario que ejecuta tiene permiso válido
-      if (!isrowner && global.db.data.users[user]?.givenByOwner)
+      if (!isOwner && global.db.data.users[user]?.givenByOwner)
         return conn.reply(
           m.chat,
           `❌ No puedes eliminar el rol de "Dios" de un usuario que fue designado por el Owner.`,

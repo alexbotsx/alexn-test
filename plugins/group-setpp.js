@@ -34,9 +34,9 @@ let handler = async (_0x394eb8, {
     , usedPrefix: _0xab7bf7
     , command: _0x4fbfd8
     , args: _0x3db997
-    , isrowner: _0x8d53d8
+    , isOwner: _0x8d53d8
     , isAdmin: _0x35aa8a
-    , isrowner: _0x48ca82
+    , isowner: _0x48ca82
 }) => {
     const _0x1a6abe = _0x375c;
     try {
