@@ -167,10 +167,10 @@ status: 0
 
         let _user = global.db.data && global.db.data.users && global.db.data.users[m.sender]
 
-        const isowner = [conn.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-        const isOwner = isowner || m.fromMe
-        const isMods = isOwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-        const isPrems = isowner || global.prems.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender) || _user.prem == true
+        const isrowner = [conn.decodeJid(global.conn.user.id), ...global.rowner.map(([number]) => number)].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
+        const isrowner = isrowner || m.fromMe
+        const isMods = isrowner || global.mods.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
+        const isPrems = isrowner || global.prems.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender) || _user.prem == true
 
         if (opts['queque'] && m.text && !(isMods || isPrems)) {
             let queque = this.msgqueque, time = 1000 * 5
@@ -244,8 +244,8 @@ status: 0
                     groupMetadata,
                     user,
                     bot,
-                    isowner,
-                    isOwner,
+                    isrowner,
+                    isrowner,
                     isRAdmin,
                     isAdmin,
                     isBotAdmin,
@@ -283,9 +283,9 @@ status: 0
                 if (m.chat in global.db.data.chats || m.sender in global.db.data.users) {
                     let chat = global.db.data.chats[m.chat]
                     let user = global.db.data.users[m.sender]
-                    if (!['owner-unbanchat.js'].includes(name) && chat && chat.isBanned && !isowner) return // Except this
-                    if (name != 'owner-unbanchat.js' && name != 'owner-exec.js' && name != 'owner-exec2.js' && name != 'tool-delete.js' && chat?.isBanned && !isowner) return
-                    if (m.text && user.banned && !isowner) {
+                    if (!['rowner-unbanchat.js'].includes(name) && chat && chat.isBanned && !isrowner) return // Except this
+                    if (name != 'rowner-unbanchat.js' && name != 'rowner-exec.js' && name != 'rowner-exec2.js' && name != 'tool-delete.js' && chat?.isBanned && !isrowner) return
+                    if (m.text && user.banned && !isrowner) {
                         if (user.antispam > 2) return
                         m.reply(`🚫 Está baneado(a), no puede usar los comandos de este bot!\n\n${user.bannedReason ? `\n💌 *Motivo:* 
 ${user.bannedReason}` : '💌 *Motivo:* Sin Especificar'}\n\n⚠️ *Si este bot es cuenta oficial y tiene evidencia que respalde que este mensaje es un error, puede exponer su caso en:*\n\n🤍 ${asistencia}`)
@@ -294,7 +294,7 @@ ${user.bannedReason}` : '💌 *Motivo:* Sin Especificar'}\n\n⚠️ *Si este bot
                     }
 
                     //Antispam 2                
-                    if (user.antispam2 && isowner) return
+                    if (user.antispam2 && isrowner) return
                     let time = global.db.data.users[m.sender].spam + 3000
                     if (new Date - global.db.data.users[m.sender].spam < 3000) return console.log(`[ SPAM ]`)
                     global.db.data.users[m.sender].spam = new Date * 1
@@ -305,9 +305,9 @@ ${user.bannedReason}` : '💌 *Motivo:* Sin Especificar'}\n\n⚠️ *Si este bot
                     let setting = global.db.data.settings[this.user.jid]
                     if (name != 'group-unbanchat.js' && chat?.isBanned)
                         return
-                    if (name != 'owner-unbanuser.js' && user?.banned)
+                    if (name != 'rowner-unbanuser.js' && user?.banned)
                         return
-                    if (name != 'owner-unbanbot.js' && setting?.banned)
+                    if (name != 'rowner-unbanbot.js' && setting?.banned)
                         return
                 }
                 let hl = _prefix
@@ -316,20 +316,20 @@ ${user.bannedReason}` : '💌 *Motivo:* Sin Especificar'}\n\n⚠️ *Si este bot
                 let isGod = global.db.data.users[m.sender].isGod; // Verifica si el usuario es "Dios"
 
                 // Si el modo Dios está activado y el usuario no es "Dios", el comando no se ejecuta
-                if (onlyGod && !isOwner && !isowner && m.isGroup && !isGod) return;
+                if (onlyGod && !isrowner && !isrowner && m.isGroup && !isGod) return;
 
                 // Si el modo Admin está activado, solo los administradores, el propietario o subpropietarios pueden usarlo
-                if (adminMode && !isOwner && !isowner && m.isGroup && !isAdmin) return;
-                if (plugin.owner && plugin.owner && !(isowner || isOwner)) {
-                    fail('owner', m, this)
+                if (adminMode && !isrowner && !isrowner && m.isGroup && !isAdmin) return;
+                if (plugin.rowner && plugin.rowner && !(isrowner || isrowner)) {
+                    fail('rowner', m, this)
                     continue
                 }
-                if (plugin.owner && !isowner) {
-                    fail('owner', m, this)
+                if (plugin.rowner && !isrowner) {
+                    fail('rowner', m, this)
                     continue
                 }
-                if (plugin.owner && !isOwner) {
-                    fail('owner', m, this)
+                if (plugin.rowner && !isrowner) {
+                    fail('rowner', m, this)
                     continue
                 }
                 if (plugin.mods && !isMods) {
@@ -381,8 +381,8 @@ ${user.bannedReason}` : '💌 *Motivo:* Sin Especificar'}\n\n⚠️ *Si este bot
                     groupMetadata,
                     user,
                     bot,
-                    isowner,
-                    isOwner,
+                    isrowner,
+                    isrowner,
                     isRAdmin,
                     isAdmin,
                     isBotAdmin,
@@ -513,8 +513,8 @@ export async function deleteUpdate(message) {
 
 global.dfail = (type, m, conn) => {
     const msg = {
-        owner: `🚩 Hola, este comando solo puede ser utilizado por *Alexn*.`,
-        owner: `👤 Usuario, Este Comando Solo Puede Ser Utilizado Por *Alexn*.`,
+        rowner: `🚩 Hola, este comando solo puede ser utilizado por *Alexn*.`,
+        rowner: `👤 Usuario, Este Comando Solo Puede Ser Utilizado Por *Alexn*.`,
         mods: `🤚🏻 Hola, este comando solo puede ser utilizado por *Alexn*.`,
         premium: `😂 Lo siento, este comando es exclusivo para *Usuarios Premium*.`,
         group: `💫 Este comando solo funciona dentro de *Grupos*.`,

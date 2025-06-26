@@ -14,7 +14,7 @@ global.confirmCode = ''
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.owner = [
+global.rowner = [
   ['5218125788206', 'Alexnn', true],
   ['5218125788206', 'Alexnn', true],
   ['5218125788206', 'Alexnn', true],

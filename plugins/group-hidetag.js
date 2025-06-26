@@ -1,7 +1,7 @@
 import { generateWAMessageFromContent } from '@whiskeysockets/baileys';
 import * as fs from 'fs';
 
-const handler = async (m, { conn, text, participants, isOwner, isAdmin }) => {
+const handler = async (m, { conn, text, participants, isrowner, isAdmin }) => {
   try {
     const users = participants.map((u) => conn.decodeJid(u.id));
     const watermark = '\n\n> @alexnsnk7';

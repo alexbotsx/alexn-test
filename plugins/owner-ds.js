@@ -30,8 +30,8 @@ const handler = async (m, { conn, usedPrefix }) => {
   await conn.sendMessage(m.chat, {text: `¡Hola! ¿Ahora me ves?`}, {quoted: m});
 };
 
-handler.tags = ['owner']
+handler.tags = ['rowner']
 handler.help = ['ds']
-handler.command = /^(del_reg_in_session_owner|ds)$/i;
-handler.owner = true
+handler.command = /^(del_reg_in_session_rowner|ds)$/i;
+handler.rowner = true
 export default handler;

@@ -1,4 +1,4 @@
-let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isowner }) => {
+let handler = async (m, { conn, usedPrefix, command, args, isrowner, isAdmin, isrowner }) => {
   let isEnable = /true|enable|(turn)?on|1/i.test(command)
   let chat = global.db.data.chats[m.chat]
   let user = global.db.data.users[m.sender]
@@ -10,7 +10,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
     case 'bv':
     case 'bienvenida':
       if (!m.isGroup) {
-        if (!isOwner) {
+        if (!isrowner) {
           global.dfail('group', m, conn)
           throw false
         }
@@ -29,7 +29,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
 
     case 'modoadmin': case 'soloadmin':
       if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
+        if (!(isAdmin || isrowner)) {
           global.dfail('admin', m, conn)
           throw false
         }
@@ -41,7 +41,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
     case 'modogod':
     case 'modorey':
       if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
+        if (!(isAdmin || isrowner)) {
           global.dfail('admin', m, conn)
           throw false
         }
@@ -52,7 +52,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
     case 'antibot':
     case 'antibots':
       if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
+        if (!(isAdmin || isrowner)) {
           global.dfail('admin', m, conn);
           throw false;
         }
@@ -62,8 +62,8 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
 
     case 'antispam':
       isAll = true
-      if (!isOwner) {
-        global.dfail('owner', m, conn)
+      if (!isrowner) {
+        global.dfail('rowner', m, conn)
         throw false
       }
       bot.antiSpam = isEnable
@@ -74,7 +74,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
     case 'antiarabes':
     case 'antiarab':
       if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
+        if (!(isAdmin || isrowner)) {
           global.dfail('admin', m, conn)
           throw false
         }
@@ -84,7 +84,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
 
     case 'detect': case 'avisos':
       if (!m.isGroup) {
-        if (!isOwner) {
+        if (!isrowner) {
           global.dfail('group', m, conn)
           throw false
         }
@@ -97,8 +97,8 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
 
     case 'autobiografia': case 'bio': case 'biografia': case 'status':
       isAll = true
-      if (!isowner) {
-        global.dfail('owner', m, conn)
+      if (!isrowner) {
+        global.dfail('rowner', m, conn)
         throw false
       }
       bot.autobio = isEnable
@@ -106,8 +106,8 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
 
     case 'antiprivado':
       isAll = true
-      if (!isowner) {
-        global.dfail('owner', m, conn)
+      if (!isrowner) {
+        global.dfail('rowner', m, conn)
         throw false
       }
       bot.antiPrivate = isEnable
@@ -115,7 +115,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
 
     case 'antilink':
       if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
+        if (!(isAdmin || isrowner)) {
           global.dfail('admin', m, conn)
           throw false
         }
@@ -125,7 +125,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
 
     case 'audios':
       if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
+        if (!(isAdmin || isrowner)) {
           global.dfail('admin', m, conn)
           throw false
         }
@@ -138,7 +138,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, iso
     case 'modocaliente':
     case 'selajaloaBOSSBOT':
       if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
+        if (!(isAdmin || isrowner)) {
           global.dfail('admin', m, conn)
           throw false
         }

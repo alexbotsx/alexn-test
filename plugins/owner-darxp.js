@@ -43,10 +43,10 @@ var handler = async (m, { conn, text, usedPrefix, command }) => {
 };
 
 handler.help = ["darxp [@usuario]"];
-handler.tags = ["owner"];
+handler.tags = ["rowner"];
 handler.command = ["añadirxp", "añadirexp", "darexperiencia", "darxp", "darexp"];
 handler.group = true;
-handler.owner = true;
+handler.rowner = true;
 
 export default handler;
 

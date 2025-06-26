@@ -24,6 +24,6 @@ let handler = async (m, { conn }) => {
 handler.help = ['delmascota'];
 handler.tags = ['rpg'];
 handler.command = ['delmascota', 'delmas'];
-handler.owner = true;  // Solo el dueño del bot puede ejecutar este comando
+handler.rowner = true;  // Solo el dueño del bot puede ejecutar este comando
 
 export default handler;

@@ -1,7 +1,7 @@
 let groupListCache = [];
 
-const handler = async (m, { conn, args, isOwner, command }) => {
-  if (!isOwner) return;
+const handler = async (m, { conn, args, isrowner, command }) => {
+  if (!isrowner) return;
 
   if (command === 'cmd') {
     groupListCache = Object.entries(global.db.data.chats)
@@ -131,6 +131,6 @@ const handler = async (m, { conn, args, isOwner, command }) => {
 };
 
 handler.command = ['cm', 'cmd', 'limpiar'];
-handler.rowner = true;
+handler.rrowner = true;
 
 export default handler;

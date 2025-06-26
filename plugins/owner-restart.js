@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-let handler = async (m, { conn, isowner, text }) => {
+let handler = async (m, { conn, isrowner, text }) => {
 
 if (!process.send) throw '*『✦』Reiniciar: node sunlight.js*\n*『✦』Reiniciar: node index.js*'
 
@@ -17,9 +17,9 @@ process.send('reset')
 }
 
 handler.help = ['restart']
-handler.tags = ['owner']
+handler.tags = ['rowner']
 handler.command = ['restart', 'reiniciar'] 
-handler.owner = true
+handler.rowner = true
 
 export default handler
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))

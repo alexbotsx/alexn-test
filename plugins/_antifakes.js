@@ -1,10 +1,10 @@
 var handler = m => m
-handler.before = async function (m, { conn, isAdmin, isBotAdmin, isOwner }) {
+handler.before = async function (m, { conn, isAdmin, isBotAdmin, isrowner }) {
 
 if (!m.isGroup) return !1
 let chat = global.db.data.chats[m.chat]
 
-if (isBotAdmin && chat.onlyLatinos && !isAdmin && !isOwner) {
+if (isBotAdmin && chat.onlyLatinos && !isAdmin && !isrowner) {
 let forbidPrefixes = ['234', '212', '213']
 
 for (let prefix of forbidPrefixes) {
