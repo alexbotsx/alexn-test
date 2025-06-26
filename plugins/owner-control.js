@@ -3,11 +3,10 @@ let groupListCache = [];
 const handler = async (m, { conn, args, isOwner, command }) => {
   if (!isOwner) return;
 
-  // Actualizar la cache de grupos una vez en .cmd
   if (command === 'cmd') {
     groupListCache = Object.entries(global.db.data.chats)
       .filter(([id]) => id.endsWith('@g.us'))
-      .sort(([a], [b]) => a.localeCompare(b)); // Orden alfabético por ID para mantener orden fijo
+      .sort(([a], [b]) => a.localeCompare(b));
 
     const groups = groupListCache.map(([id], i) => {
       const name = conn.chats[id]?.metadata?.subject || 'Desconocido';
@@ -15,6 +14,31 @@ const handler = async (m, { conn, args, isOwner, command }) => {
     });
 
     m.reply(groups.length ? groups.join('\n\n') : 'No hay grupos registrados.');
+    return;
+  }
+
+  if (command === 'limpiar') {
+    if (groupListCache.length === 0) {
+      groupListCache = Object.entries(global.db.data.chats)
+        .filter(([id]) => id.endsWith('@g.us'))
+        .sort(([a], [b]) => a.localeCompare(b));
+    }
+
+    const gruposEliminados = [];
+
+    for (const [id] of groupListCache) {
+      if (id.endsWith('@g.us')) {
+        delete global.db.data.chats[id];
+        gruposEliminados.push(id);
+      }
+    }
+
+    groupListCache = [];
+
+    m.reply(gruposEliminados.length
+      ? `Se eliminaron ${gruposEliminados.length} grupos del registro.`
+      : 'No había grupos que limpiar.');
+
     return;
   }
 
@@ -26,14 +50,13 @@ const handler = async (m, { conn, args, isOwner, command }) => {
 .cm banchat [#grupo]
 .cm unchat [#grupo]
 .cm welcome [on/off] [#grupo]
-.cm bye [on/off] [#grupo]
-.cm setwelcome [mensaje] | [#grupo]
-.cm setbye [mensaje] | [#grupo]`);
+.cm god [on/off] [#grupo]
+.cm estado [#grupo]
+.cm salir [#grupo]`);
     }
 
     const getGroupIdByIndex = (index) => {
       if (groupListCache.length === 0) {
-        // Si aún no se ejecutó .cmd, generamos la lista
         groupListCache = Object.entries(global.db.data.chats)
           .filter(([id]) => id.endsWith('@g.us'))
           .sort(([a], [b]) => a.localeCompare(b));
@@ -41,7 +64,6 @@ const handler = async (m, { conn, args, isOwner, command }) => {
       return groupListCache[index - 1]?.[0];
     };
 
-    // Acciones simples por número
     if (['banchat', 'unchat'].includes(action)) {
       const groupIndex = parseInt(rest[0]);
       const groupId = getGroupIdByIndex(groupIndex);
@@ -52,8 +74,7 @@ const handler = async (m, { conn, args, isOwner, command }) => {
       return m.reply(`Grupo ${groupId} ${action === 'banchat' ? 'baneado' : 'desbaneado'}.`);
     }
 
-    // welcome / bye on/off
-    if (['welcome', 'bye'].includes(action)) {
+    if (action === 'welcome') {
       const value = rest[0];
       const groupIndex = parseInt(rest[1]);
       const groupId = getGroupIdByIndex(groupIndex);
@@ -61,30 +82,55 @@ const handler = async (m, { conn, args, isOwner, command }) => {
         return m.reply(`Uso: .cm ${action} [on/off] [#grupo]`);
       }
       let chat = global.db.data.chats[groupId] || {};
-      chat[action] = value === 'on';
+      chat.bienvenida = value === 'on';
       global.db.data.chats[groupId] = chat;
-      return m.reply(`${action === 'welcome' ? 'Bienvenida' : 'Despedida'} en ${groupId} ${value === 'on' ? 'activada' : 'desactivada'}.`);
+      return m.reply(`Bienvenida en ${groupId} ${value === 'on' ? 'activada' : 'desactivada'}.`);
     }
 
-    // setwelcome / setbye con mensaje y número
-    if (['setwelcome', 'setbye'].includes(action)) {
-      const joined = rest.join(' ').split('|');
-      const message = joined[0]?.trim();
-      const groupIndex = parseInt(joined[1]?.trim());
+    if (action === 'god') {
+      const value = rest[0];
+      const groupIndex = parseInt(rest[1]);
       const groupId = getGroupIdByIndex(groupIndex);
-      if (!message || !groupId) {
-        return m.reply(`Uso: .cm ${action} [mensaje] | [#grupo]`);
+      if (!['on', 'off'].includes(value) || !groupId) {
+        return m.reply(`Uso: .cm god [on/off] [#grupo]`);
       }
       let chat = global.db.data.chats[groupId] || {};
-      chat[action === 'setwelcome' ? 'welcomeMessage' : 'byeMessage'] = message;
+      chat.onlyGod = value === 'on';
       global.db.data.chats[groupId] = chat;
-      return m.reply(`${action === 'setwelcome' ? 'Mensaje de bienvenida' : 'Mensaje de despedida'} actualizado para ${groupId}.`);
+      return m.reply(`Modo Dios en ${groupId} ${value === 'on' ? 'activado' : 'desactivado'}.`);
+    }
+
+    if (action === 'estado') {
+      const groupIndex = parseInt(rest[0]);
+      const groupId = getGroupIdByIndex(groupIndex);
+      if (!groupId) return m.reply('Número de grupo inválido.');
+
+      const chat = global.db.data.chats[groupId] || {};
+      const estado = (prop) => chat[prop] ? '✅' : '❌';
+      const msg = `*Estado del grupo ${groupId}:*\n
+- Modo Admin: ${estado('modoadmin')}
+- Bienvenida: ${estado('bienvenida')}
+- Ban Chat: ${estado('isBanned')}
+- Modo Dios: ${estado('onlyGod')}`;
+
+      return m.reply(msg);
+    }
+
+    if (action === 'salir') {
+      const groupIndex = parseInt(rest[0]);
+      const groupId = getGroupIdByIndex(groupIndex);
+      if (!groupId) return m.reply('Número de grupo inválido.');
+      const mensaje = '𝙲𝚘́𝚖𝚘 𝚝𝚞́ 𝙿𝚊𝚙𝚊́, 𝚃𝚎 𝚊𝚋𝚊𝚗𝚍𝚘𝚗𝚘 🏃🏻‍♂️ Zerwaybot 🔥';
+      await conn.sendMessage(groupId, { text: mensaje }, { quoted: m });
+      await conn.groupLeave(groupId);
+      return;
     }
 
     m.reply('Acción no reconocida.');
   }
 };
 
-handler.command = ['cm', 'cmd'];
-handler.owner = true;
+handler.command = ['cm', 'cmd', 'limpiar'];
+handler.rowner = true;
+
 export default handler;
