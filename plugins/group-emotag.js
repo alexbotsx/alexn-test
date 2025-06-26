@@ -1,5 +1,5 @@
-const handler = async (m, { isrowner, isAdmin, conn, args }) => {
-  if (!(isAdmin || isrowner)) {
+const handler = async (m, { isOwner, isAdmin, conn, args }) => {
+  if (!(isAdmin || isOwner)) {
     global.dfail('admin', m, conn);
     throw false;
   }
@@ -17,6 +17,6 @@ const handler = async (m, { isrowner, isAdmin, conn, args }) => {
 handler.help = ['emotag'];
 handler.tags = ['group'];
 handler.command = /^emotag$/i;
-handler.rowner = true;
+handler.owner = true;
 
 export default handler;

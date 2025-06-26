@@ -36,10 +36,10 @@ await conn.reply(m.chat, '⚠️ *Ocurrió un fallo*',  m)
 }
 
 }
-handler.help = ['dsrowner']
-handler.tags = ['fix', 'rowner']
-handler.command = ['delai', 'delyaemori', 'dsrowner', 'clearallsession']
+handler.help = ['dsowner']
+handler.tags = ['fix', 'owner']
+handler.command = ['delai', 'delyaemori', 'dsowner', 'clearallsession']
 
-handler.rowner = true
+handler.owner = true
 
 export default handler

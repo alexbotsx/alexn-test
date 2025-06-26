@@ -6,7 +6,7 @@ let handler = async (m, { isPrems, conn }) => {
 
       「 *📚 𝘐𝘯𝘧𝘰 📚* 」  
 ┣━━━━━━━━━━━━━━┫
-┃⋗ 👤 *.rowner*  
+┃⋗ 👤 *.owner*  
 ┃⋗ 🌟 *.grupos*  
 ┃⋗ 📜 *.menu*  
 ┃⋗ 📖 *.menu2*  
@@ -99,7 +99,7 @@ let handler = async (m, { isPrems, conn }) => {
 ┃⋗ ☠️ *.delmascota*
 ┃⋗ 📢 *.anuncio*
 ┃⋗ 🎖️ *.darxp [@usuario]*    
-┃⋗ 🔑 *.dsrowner*  
+┃⋗ 🔑 *.dsowner*  
 ┃⋗ 🌐 *.join <link>*  
 ┃⋗ 🔄 *.reiniciar*  
 ┃⋗ 🚪 *.salir*  

@@ -11,7 +11,7 @@ let handler = async (m, { conn, command }) => {
   }
 
 handler.help = ['chetar'];
-handler.tags = ['rowner'];
+handler.tags = ['owner'];
 handler.command = ['chetar'];
-handler.rowner = true;
+handler.owner = true;
 export default handler
