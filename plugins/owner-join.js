@@ -1,6 +1,6 @@
 let linkRegex = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})( [0-9]{1,3})?/i
 
-let handler = async (m, { conn, text, isOwner, usedPrefix, command }) => {
+let handler = async (m, { conn, text, isrowner, usedPrefix, command }) => {
 
 if (!text) return m.reply(`🚩 Ingresa el enlace del Grupo.`)
 try {

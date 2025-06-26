@@ -1,4 +1,4 @@
-let handler = async (m, { conn, participants, usedPrefix, command, isowner }) => {
+let handler = async (m, { conn, participants, usedPrefix, command, isrowner }) => {
 	
 let kickte = `_Menciona al usuario que deseas eliminar._`
 

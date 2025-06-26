@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-let handler = async (m, { conn, isowner, text }) => {
+let handler = async (m, { conn, isrowner, text }) => {
 
 if (!process.send) throw '*『✦』Reiniciar: node sunlight.js*\n*『✦』Reiniciar: node index.js*'
 
