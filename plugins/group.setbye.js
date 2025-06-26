@@ -1,4 +1,4 @@
-let handler = async (m, { conn, text, isROwner, isOwner }) => {
+let handler = async (m, { conn, text, isowner, isOwner }) => {
 
 if (text) {
 global.db.data.chats[m.chat].sBye = text

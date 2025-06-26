@@ -7,6 +7,6 @@ handler.help = ['salir']
 handler.tags = ['owner']
 handler.command = /^(salir)$/i
 handler.group = true
-handler.rowner = true
+handler.owner = true
 
 export default handler

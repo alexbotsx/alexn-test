@@ -40,6 +40,6 @@ handler.help = ['dsowner']
 handler.tags = ['fix', 'owner']
 handler.command = ['delai', 'delyaemori', 'dsowner', 'clearallsession']
 
-handler.rowner = true
+handler.owner = true
 
 export default handler
